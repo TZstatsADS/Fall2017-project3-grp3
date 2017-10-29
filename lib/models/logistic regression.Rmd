@@ -1,0 +1,110 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+setwd("C:/Users/lenovo/Desktop/ads/proj3")
+
+library(dplyr)
+library(data.table)
+library(nnet)
+```
+
+
+```{r}
+k <- 5000
+
+#feature <- fread("data/sift_train.csv", stringsAsFactors = FALSE)
+
+label <- fread("data/label_train.csv", stringsAsFactors = FALSE)
+colnames(label) <- c("image", "label")
+
+# df <- feature[, -1]
+# df$label <- label$label
+# df <- data.frame(df)
+
+feature <- fread("data/cnn_features_350.csv", stringsAsFactors = FALSE)
+feature <- t(feature)
+label <- label[1:2000,]
+
+# df <- data.frame(feature)
+# df$label <- label$label
+
+df <- data.frame(HOG_features[1:2000,])
+df$label <- label$label
+
+df <- data.frame(feat.pca[1:2000,])
+df$label <- label$label
+
+head(feat.pca)
+head(HOG_features)
+# head(feature)
+# head(label)
+# head(df)
+
+```
+
+
+```{r, warning=FALSE}
+# featureTrain <- feature[1:2500, ]
+# labelTrain <- label[1:2500, ]
+# featureTest <- feature[2501:3000, ]
+# labelTest <- label[2501:3000, ]
+
+dfTrain <- df[1:1500, ]
+dfTest <- df[1501:2000, ]
+```
+
+
+```{r}
+df <- t(df)
+dfTrain <- df[ , 1:2500]
+dfTest <- df[ ,2501:3000]
+dfTest$label
+```
+
+
+```{r}
+start <- Sys.time()
+#logistic.fit <- glm(label ~ ., data = dfTrain[,c(1:k+1)], family = "binomial")
+#logistic.fit <- glm(label ~ ., data = dfTrain[c(1:k+1), ], family = "binomial")
+#logistic.fit <- glm(dfTrain$label ~ ., data = dfTrain, family = "binomial")
+logistic.fit <- glm(dfTrain$label ~ ., data = dfTrain)
+end <- Sys.time()
+(end - start)
+
+logistic_pred <- predict(logistic.fit,newdata = dfTest,type = "response")
+mean(round(logistic_pred) == dfTest$label)  
+```
+
+
+```{r}
+start <- Sys.time()
+logistic.fit <- multinom(label ~ ., data = dfTrain, MaxNWts = 10000)
+summary(logistic.fit)
+#Prediction
+logistic_pred <- predict(logistic.fit, newdata = dfTest, "probs")
+end <- Sys.time()
+(end - start)
+
+logistic_pred <- data.frame(logistic_pred)
+dim(logistic_pred)
+
+#apply(logistic_pred, 1, max)
+for (i in 1:nrow(logistic_pred)){
+  logistic_pred[i, 4] <- which.max(logistic_pred[i, ])-1
+}
+
+#debug
+
+which.max(logistic_pred[1, ])
+colnames(logistic_pred)[which.max(logistic_pred[2, ])]
+head(logistic_pred)
+
+mean(logistic_pred[,4] == dfTest$label)
+```
+
+
+
