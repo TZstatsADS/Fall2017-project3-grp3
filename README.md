@@ -47,6 +47,16 @@ Carried out the model of Logistic Regression and tested it on various features. 
 
 * Wrote function to extract HOG feature 
 
+## Hongyang Yang:
+
+Feature Extraction: 
+1. extract gray raw image features (320,000) and divide into 256 quantiles and count the frequency, use frequency/320000, so we have 256 unique features for each image.
+2. use matlab extract LBP features from raw image, 59 features
+
+Model:
+1. Wrote Neural network model, run HOG+LBP feautres, get 0.82 accuracy rate
+2. Wrote CNN model, run 28*28 raw features, and get 0.52 accuracy rate
+
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
 ```
