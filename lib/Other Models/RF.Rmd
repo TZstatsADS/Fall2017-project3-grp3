@@ -1,0 +1,145 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r}
+
+library(knitr)
+library(randomForest)
+library(ggplot2)
+
+load("sift5000_lbp_hog_gray.RData")
+load("SIFT_train_pca.RData")
+load("train_index.RData")
+```
+
+```{r}
+proportion = 0.75 # training set proportion
+seed = 618 # set seed
+
+label.train <- read.csv("label_train.csv")
+label.train <- label.train[,2]
+features <- sift5000_lbp_hog_grey
+
+ntree <- seq(10, 400, by=90) 
+
+n <- dim(features)[1]
+set.seed(seed)
+#index <- sample(n, n*proportion)
+index <- train_index
+
+x.train <- features[index,]
+y.train <- label.train[index]
+
+x.test <- features[-index,]
+y.test <- label.train[-index]
+
+err_cv_rf <- c()
+err_sd_rf <- c()
+
+
+rf_cv <- function(dat_train, label_train, K=2, ntree=500){
+
+  n <- length(label_train)
+  n.fold <- floor(n/K)
+  s <- sample(rep(1:K, c(rep(n.fold, K-1), n-(K-1)*n.fold)))  
+  cv.error <- rep(NA, K)
+  
+  for (i in 1:K){
+    cat(i/K) #processing record
+    
+    train.data <- dat_train[s != i,]
+    train.label <- label_train[s != i]
+    test.data <- dat_train[s == i,]
+    test.label <- label_train[s == i]
+    
+    rf_fit <- randomForest(train.data, as.factor(train.label), ntree = ntree)
+#browser()
+    rf_predict <- predict(rf_fit, test.data)
+    
+    cv.error[i] <- mean(rf_predict != test.label)
+    
+  }
+  
+  error <- mean(cv.error)
+  sd <- sd(cv.error)
+  
+  return(c(error, sd))
+}
+
+for (j in 1:length(ntree)){
+  cat("j=", j, "\n")
+  result <- rf_cv(dat_train = x.train, label_train = y.train, K = 5, ntree = ntree[j])
+  err_cv_rf[j] <- result[1]
+  err_sd_rf[j] <- result[2]
+}
+
+qplot(x = ntree, y = err_cv_rf, xlab = "number of trees", geom = "line", ylab = "Accuracy", main = "Random Forest")
+best_ntree = 280
+system.time(best.fit <- randomForest(x.train, as.factor(y.train), ntree = best_ntree))
+
+#save(best.fit, file="./RFs_fit_SIFT+PCA.RData")
+# Training error
+train_pred <- predict(best.fit, x.train)
+train_error <- mean(train_pred != y.train)
+train_error
+
+# Test error
+test_pred <- predict(best.fit, x.test)
+test_error <- mean(test_pred != y.test)
+test_error
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

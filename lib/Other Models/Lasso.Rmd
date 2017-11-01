@@ -1,0 +1,65 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+#setwd("C:/Users/lenovo/Desktop/ads/proj3")
+
+library(dplyr)
+library(data.table)
+library(nnet)
+library(glmnet)
+library(ggplot2)
+
+load("SIFT_train_pca.RData")
+load("feature_sift_pca_hog.RData")
+load("HOG_features_train.RData")
+load("train_index.RData")
+load("SIFT_train.RData")
+load("Final_feature_siftpca_hog_lbp.RData")
+load("sift5000_lbp_hog_gray.RData")
+```
+
+############as a function############
+
+```{r}
+Lasso <- function(features = feat.pca, label = read.csv("label_train.csv")){
+  features = as.matrix(features)
+  index <- train_index
+  label.train <- label[,2]
+  x.train <- features[index,]
+  y.train <- label.train[index]
+
+  x.test <- features[-index,]
+  y.test <- label.train[-index]
+
+  
+  
+  #CV
+  cv.out <- cv.glmnet(x.train, y.train, alpha=1,family="multinomial",type.measure = "class",nfolds = 5)
+  plot(cv.out)
+  lambda.1se <- cv.out$lambda.1se
+  
+  #Prediction
+  time <- system.time(lasso_prob <- predict(cv.out, newx = x.test, s=lambda.1se, type="response"))
+  
+  logistic_pred <- data.frame(lasso_prob)
+  
+  for (i in 1:nrow(logistic_pred)){
+    logistic_pred[i, 4] <- which.max(logistic_pred[i, ])-1
+  }
+
+  accuracy = mean(logistic_pred[,4] == y.test)
+  r = list(lr_accuracy = accuracy, lr_time = time)
+  return(r)
+}
+
+hog = Lasso(HOG_features)
+pca_hog = Lasso(features = sift_pca_hog)
+sift <- Lasso(features)
+final = Lasso(sift_pca_hog_lbp)
+final2 = Lasso(sift5000_lbp_hog_grey)
+```
+
