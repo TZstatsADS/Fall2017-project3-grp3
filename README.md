@@ -21,6 +21,7 @@ Term: Fall 2017
 
 ![image](figs/mode_vs_feature.png)
 
+
 ![image](models_vs_feature.png)
 	
 ![image](base_vs_new.png)
