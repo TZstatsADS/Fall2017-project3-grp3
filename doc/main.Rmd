@@ -46,7 +46,7 @@ image_test.dir <- '../../data/images'
 feature_sift_test.dir <- '../../data/sift_test.csv'
 feature_hog_test.dir <- '../output/feature_hog_test.RData'
 #feature_sift_pca_test.dir <- '../output/feature_sift_pca_test.RData'
-feature_lbp_test.dir <- '../output/feature_lbp_test.csv'
+feature_lbp_test.dir <- '../output/feature_lbp_test.RData'
 feature_gray_test.dir <- '../output/feature_gray_test.RData'
 feature_test.dir <- '../output/feature_test.RData'
 # 
@@ -116,8 +116,8 @@ if(run.feature.test){
   
   sift_test_feature <- read.csv(feature_sift_test.dir,as.is=T)[,-1]
   #tm_feature_pca <- system.time(feature_sift_pca_test <- feature.pca(sift_test_feature))
-  tm_feature_hog <- system.time(feature_hog_test <-  HOG_extract(image_test.dir))
-  tm_feature_gray <- system.time(feature_gray_test <-  gray_extractFeature(image_test.dir))
+  tm_feature_hog <- system.time(feature_hog_test <-  HOG_extract(image_test.dir))[3]
+  tm_feature_gray <- system.time(feature_gray_test <-  gray_extractFeature(image_test.dir))[3]
   
   tm_feature_test <- tm_feature_gray + tm_feature_hog
   
