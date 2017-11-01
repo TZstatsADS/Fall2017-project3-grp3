@@ -1,26 +1,16 @@
-######################################################
-### Fit the classification model with testing data ###
-######################################################
+gbm_test <- function(model_fit,dat_test){
+  pred <- predict(model_fit, newdata=dat_test, 
+                  n.trees=model_fit$n.trees, type="response")
+  pred <- data.frame(pred[,,1])
+  colnames(pred) <- c('0','1','2')
+  pred_label <- apply(pred,1,function(x){return(which.max(x)-1)})
+  return(pred_label)
+}
 
-### Author: Yuting Ma
-### Project 3
-### ADS Spring 2016
 
-test <- function(fit_train, dat_test){
-  
-  ### Fit the classfication model with testing data
-  
-  ### Input: 
-  ###  - the fitted classification model using training data
-  ###  -  processed features from testing images 
-  ### Output: training model specification
-  
-  ### load libraries
-  library("gbm")
-  
-  pred <- predict(fit_train$fit, newdata=dat_test, 
-                  n.trees=fit_train$iter, type="response")
-  
-  return(as.numeric(pred> 0.5))
+xgb_test <- function(model,dat_test, label_test){
+  pred_label <- predict(model, data.matrix(dat_test))
+  #return(mean(pred_label==label_test))
+  return(pred_label)
 }
 

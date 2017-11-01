@@ -1,0 +1,162 @@
+---
+title: "ADS_Project3_Neural Network_Hongyang"
+author: "Hongyang"
+date: "October 29, 2017"
+output: html_document
+---
+
+
+
+```{r cars}
+library(data.table)
+library(plyr) 
+library(dplyr)
+library(neuralnet)
+library(nnet)
+```
+
+# Load all the features: HOG, SIFT_PCA,SIFT_PCA + HOG, LBP, LBP+HOG
+
+```{r}
+#feature: HOG
+label <- read.csv("../data/label_train.csv")
+label <- label[,2]
+load("../output/HOG_features_train.Rdata")
+
+HOG_label=cbind(y=label,HOG_features)
+
+HOG_NN <- cbind(HOG_label[, 2:ncol(HOG_label)], class.ind(as.factor(HOG_label$y)))
+names(HOG_NN) <- c(names(HOG_label)[2:ncol(HOG_label)],"l1","l2","l3")
+```
+
+```{r}
+#feature: sift after pca and HOG
+label <- read.csv("../data/label_train.csv")
+label <- label[,2]
+load("../data/features/feature_sift_pca_hog.Rdata")
+
+pca_hog_label=cbind(y=label,sift_pca_hog)
+
+pca_hog <- cbind(pca_hog_label[, 2:ncol(pca_hog_label)], class.ind(as.factor(pca_hog_label$y)))
+names(pca_hog) <- c(names(pca_hog_label)[2:ncol(pca_hog_label)],"l1","l2","l3")
+
+```
+
+```{r}
+#Feature: sift after pca
+load("../data/features/SIFT_train_pca.Rdata")
+
+sift_pca=data.frame(y=label,feat.pca)
+
+pca_sift_full <- cbind(sift_pca[, 2:ncol(sift_pca)], class.ind(as.factor(sift_pca$y)))
+names(pca_sift_full) <- c(names(sift_pca)[2:ncol(sift_pca)],"l1","l2","l3")
+
+```
+
+```{r}
+#Feature: LBP
+load('../data/features/lbp_features.RData')
+
+lbp_wlabel=data.frame(y=label,lbp_features)
+
+lbp <- cbind(lbp_wlabel[, 2:ncol(lbp_wlabel)], class.ind(as.factor(lbp_wlabel$y)))
+names(lbp) <- c(names(lbp_wlabel)[2:ncol(lbp_wlabel)],"l1","l2","l3")
+
+```
+
+```{r}
+#Feature: LBP+HOG
+load('../data/features/lbp_hog_features.RData')
+
+lbp_hog_temp=data.frame(y=label,lbp_hog)
+
+lbp_hog <- cbind(lbp_hog_temp[, 2:ncol(lbp_hog_temp)], class.ind(as.factor(lbp_hog_temp$y)))
+names(lbp_hog) <- c(names(lbp_hog_temp)[2:ncol(lbp_hog_temp)],"l1","l2","l3")
+
+```
+
+# Neural Network function with k-fold
+
+```{r}
+#Neural Network function with k-fold
+
+
+NN_run=function(full_data,k,hidden_layer){
+  library(neuralnet)
+  library(nnet)
+  #set up the function y~x1+x2...
+  n <- names(full_data)
+  f <- as.formula(paste("l1 + l2 + l3 ~", paste(n[!n %in% c("l1","l2","l3")], collapse = " + ")))
+  
+  f
+  
+  # Crossvalidate
+  set.seed(10)
+  outs <- NULL
+  proportion <- 0.7
+  
+  pbar <- create_progress_bar('text')
+  pbar$init(k)
+  
+    for(i in 1:k)
+    {
+      index <- sample(1:nrow(full_data), round(proportion*nrow(full_data)))
+      train_cv <- full_data[index, ]
+      test_cv <- full_data[-index, ]
+      nn_cv <- neuralnet(f,
+                          data = train_cv,
+                          hidden = hidden_layer,
+                          act.fct = "logistic",
+                          linear.output = FALSE
+                         #stepmax=1e5,
+                         #rep=5
+                         )
+      # Compute predictions
+      pr.nn <- compute(nn_cv, test_cv[, 1:(ncol(full_data)-3)])
+      
+      # Extract results
+      pr.nn_ <- pr.nn$net.result
+      
+      # Accuracy (test set)
+      original_values <- max.col(test_cv[, (ncol(full_data)-2):ncol(full_data)])
+      pr.nn_2 <- max.col(pr.nn_)
+      outs[i] <- mean(pr.nn_2 == original_values)
+      pbar$step()
+    }
+  
+  # Average accuracy
+  print(mean(outs))
+}
+
+
+```
+
+
+# Testing
+```{r}
+
+
+NN_run(lbp_hog,1,c(10))
+
+#for (i in 1:20){
+#print(c(10,i))
+#NN_run(HOG_NN,1,c(10,i))
+#}
+
+
+#start.time=system.time()
+#NN_run(lbp,1,c(5))
+#end.time=system.time()
+#end.time-start.time
+
+#NN_run(HOG_NN,1,c(10,9,3))
+
+#NN_run(raw_feature,1,c(10,11,20,3,3))
+
+
+
+#NN_run(pca_sift_full,1)
+#c(10,11,20,3,3) 79
+
+
+```
