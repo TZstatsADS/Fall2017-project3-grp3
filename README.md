@@ -20,7 +20,7 @@ First, we researched on several classification medels including gbm, xgboost, ra
 
 ![image](figs/mode_vs_feature.png)
 
-![image](figs/compare features/xgb.PNG)
+![image](figs/xgb.PNG)
 
 
 **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members approve our work presented in this GitHub repository including this contributions statement. 
