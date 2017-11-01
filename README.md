@@ -25,7 +25,9 @@ First, we researched on several classification medels including gbm, xgboost, ra
 
 **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members approve our work presented in this GitHub repository including this contributions statement. 
 
-+ Peilin: designed SIFT with PCA as feature extraction. Tried to develop CNN feature extraction together with Chaoyue but failed. Carried out the Lasso and Random Forests model and tested them on various features. Helped finish the final report.
++ Peilin: designed SIFT with PCA as feature extraction. Tried to develop CNN feature extraction together with Chaoyue. Carried out the Lasso and Random Forests model and tested them on various features. Helped finish the final report.
+
++ Chaoyue: Carried out the model of Logistic Regression and tested it on various features. Researched on feature extraction method CNN and tried to develop CNN feature extraction on this problem together with Peilin. Helped finish the final report.
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
