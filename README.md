@@ -21,17 +21,22 @@ Term: Fall 2017
 
 ![image](figs/mode_vs_feature.png)
 
+![image](models_vs_feature.png)
+	
+![image](base_vs_new.png)
+
+
 **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members approve our work presented in this GitHub repository including this contributions statement. 
 
-Peilin: 
+## Peilin: 
 
 Designed SIFT with PCA as feature extraction. Tried to develop CNN feature extraction together with Chaoyue. Carried out the Lasso and Random Forests model and tested them on various features. Helped finish the final report.
 
-Chaoyue: 
+## Chaoyue: 
 
 Carried out the model of Logistic Regression and tested it on various features. Researched on feature extraction method CNN and tried to develop CNN feature extraction on this problem together with Peilin. Helped finish the final report.
 
-Han Lin: 
+## Han Lin: 
 
 * Wrote main.Rmd, train.R, test.R, feature.R, cross_validation.R.
 
