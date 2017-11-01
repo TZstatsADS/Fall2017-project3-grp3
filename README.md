@@ -6,7 +6,7 @@
 
 Term: Fall 2017
 
-+ Team #
++ Team #3
 + Team members
 	+ Chaoyue Tan
     + Han Lin 
