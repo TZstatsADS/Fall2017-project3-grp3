@@ -1,6 +1,6 @@
 ---
 title: "Project 3 - Main File"
-author: 'Group 3: '
+author: 'Group 3: Chaoyue Tan, Han Lin, Hongyang Yang, Peilin Qiu, Wyatt Thompson'
 output:
   html_document: default
   pdf_document: default
@@ -10,15 +10,8 @@ geometry: margin = 0.5in
 Revlevant packages needed for this file
 
 ```{r "package import", message = FALSE, warnings = FALSE}
-list.of.packages <- c("e1071", "ggplot2","gbm","caret","randomForest","EBImage","xgboost","OpenImageR")
+list.of.packages <- c("e1071", "ggplot2","gbm","caret","randomForest","EBImage","xgboost","OpenImageR","stringr")
 
-# new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-# if(length(new.packages)) 
-#   {
-#    install.packages(new.packages)
-#    source("https://bioconductor.org/biocLite.R")
-#    biocLite("EBImage")
-#   }
 
 packages.needed=setdiff(list.of.packages, 
                         intersect(installed.packages()[,1], 
@@ -27,6 +20,7 @@ if(length(packages.needed)>0){
   install.packages(packages.needed, dependencies = TRUE)
 }
 
+library("stringr")
 library("gbm")
 library("ggplot2")
 library("caret")
@@ -76,7 +70,7 @@ K_folds <- 3  # number of CV folds
 run.feature.train=FALSE # process features for all pictures
 
 run.train = FALSE # if true, train model on training data, else use saved model
-run.test=TRUE # run evaluation on an independent test set
+run.test=FALSE # run evaluation on an independent test set
 run.feature.test=FALSE # process features for test set
 ```
 
@@ -135,10 +129,11 @@ if(run.feature.test){
   load(feature_hog_test.dir)
   load(feature_gray_test.dir)
   
-  feature_lbp_test <- read.csv(feature_lbp_test.dir,as.is=T)
-  #feature_lbp_test <- get(load(feature_lbp_test.dir))
   
-  feature_gray_test <- read.csv(feature_gray_test.dir,as.is=T)
+  #feature_lbp_test <- read.csv(feature_lbp_test.dir,as.is=T)[1:100,]
+  feature_lbp_test <- get(load(feature_lbp_test.dir))
+  
+  #feature_gray_test <- read.csv(feature_gray_test.dir,as.is=T)
   #feature_lbp_test <- get(load(feature_lbp_test.dir))
   
   
@@ -232,19 +227,6 @@ cat("Time for making prediction=", tm_train_xgb, "s \n")
 
 
 
-
-
-
-
-
-```{r}
-# if(run.evaluation){
-#   cat('baseline model accuracy:' ,mean(pred_label_base==label_test),'\n')
-#   cat('adv1 model accuracy:' ,mean(pred_label_adv1==label_test),'\n')
-#   cat('adv2 model accuracy:' ,mean(pred_label_adv2==label_test),'\n')
-#   
-# }
-```
 
 
 
