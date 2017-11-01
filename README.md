@@ -57,6 +57,9 @@ Model:
 1. Wrote Neural network model, run HOG+LBP feautres, get 0.82 accuracy rate
 2. Wrote CNN model, run 28*28 raw features, and get 0.52 accuracy rate
 
+## Wyatt Thompson
+Examined the model of Support Vector Machine with varying kernels and tuned parameters. Researched the general problem of image classification in order to plan. 
+
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
 ```
