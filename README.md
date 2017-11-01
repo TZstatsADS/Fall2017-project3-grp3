@@ -22,9 +22,9 @@ Term: Fall 2017
 ![image](figs/mode_vs_feature.png)
 
 
-![image](models_vs_feature.png)
+![image](figs/models_vs_feature.png)
 	
-![image](base_vs_new.png)
+![image](figs/base_vs_new.png)
 
 
 **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members approve our work presented in this GitHub repository including this contributions statement. 
