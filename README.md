@@ -59,7 +59,7 @@ Model:
 
 Test:
 
-Tried different features combination (LBP+ HOG, SIFT+LBP+HOT, SIFT after PCA + HOG + LBP, SIFT+LBP+HOT+Gray256) on every model (gbm, lgb, random forest, neural network), finally summarized that SIFT+LBP+HOT+Gray256 has the best test accuracy (0.88 after 5-fold cv). 
+Tried different features combination (LBP+ HOG, SIFT+LBP+HOT, SIFT after PCA + HOG + LBP, SIFT+LBP+HOT+Gray256) on every model (gbm, lgb, random forest, neural network), finally summarized that SIFT+LBP+HOT+Gray256 has the best test accuracy (0.88777 after 5-fold cv). 
 
 
 ## Wyatt Thompson
