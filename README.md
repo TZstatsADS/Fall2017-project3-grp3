@@ -31,7 +31,8 @@ Comparison of baseline and proposed model:
 ![image](figs/base_vs_new.png)
 
 Performance of different models and different features:
-![image](figs/mode_vs_feature.png =100*60)
+
+![image](figs/mode_vs_feature.png=100x60)
 
 ![image](figs/models_vs_feature.png)
 
