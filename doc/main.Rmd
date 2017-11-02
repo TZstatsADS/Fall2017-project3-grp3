@@ -2,8 +2,8 @@
 title: "Project 3 - Main File"
 author: 'Group 3: Chaoyue Tan, Han Lin, Hongyang Yang, Peilin Qiu, Wyatt Thompson'
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 geometry: margin = 0.5in
 ---
 
