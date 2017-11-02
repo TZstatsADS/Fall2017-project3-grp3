@@ -58,7 +58,7 @@ Feature Extraction:
 
 Model:
 1. Wrote Neural network model, run HOG+LBP feautres, get 0.82 accuracy rate
-2. Wrote CNN model, run 28*28 raw features, and get 0.52 accuracy rate. (took 3 hours to run for 128*128 raw features and finnaly crash!!!)
+2. Wrote CNN model, run 28 by 28 pixels raw features, and get 0.52 accuracy rate. (took 3 hours to run for 128*128 raw features and finnaly crash!!!)
 
 Test:
 
