@@ -61,7 +61,7 @@ Model:
 2. Wrote CNN model, run 28 by 28 pixels raw features, and get 0.52 accuracy rate. (took 3 hours to run for 128*128 raw features and finnaly crash!!!)
 
 Test:
-1. Tried different features combination (LBP+ HOG, LBP+HOG+Gray, SIFT+LBP+HOT, SIFT after PCA + HOG + LBP, SIFT+HOT+LBP+Gray256) on every model (gbm, lgb, random forest, neural network)
+1. Tried different features combination (LBP+ HOG, LBP+HOG+Gray, SIFT+LBP+HOT, SIFT after PCA + HOG + LBP, SIFT+HOT+LBP+Gray256) on every model (gbm, xgboost, random forest, neural network)
 2. Finally summarized that feature combination: SIFT+HOT+LBP+Gray256 has the best test accuracy (0.88777 after 5-fold cv on the entire data). 
 
 
