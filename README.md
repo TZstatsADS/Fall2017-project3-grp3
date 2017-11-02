@@ -15,7 +15,12 @@ Term: Fall 2017
     + Wyatt Thompson
 
 
-+ Project summary: In this project, we created a classification engine for images of dogs versus fried chicken versus blueberry muffins. ([Main.Rmd](doc/main.Rmd))
++ Project summary: In this project, we created a classification engine for images of dogs versus fried chicken versus blueberry muffins. ([Main.Rmd](doc/main.Rmd) and [Main.pdf](doc/main.pdf))
+
+  + Baseline model: GBM with SIFT feature, accuracy 80%
+  
+  + Proposed model: XGBoost with SIFT+ SIFT+HOG+LBP+Gray256 feature, accuracy 89%
+  
 + Project details: First, we researched on several classification medels including gbm, xgboost, random forest, logistic regression, lasso, nueral network, svm and cnn. Next, we test different ways of feature extraction including sift, hog, pca, lbp and cnn and use the features we got to work with different models. Finally, we found the most efficient solution of this problem is using model xgboost and feature sift+hog+lbp+gray256.
 
 + Quick Access: In case you get lost in the main file, this folder contains everything you need to run the advanced model ([Final_model](lib/Hongyang_Final))
@@ -48,7 +53,7 @@ Wrote final files:
 
 Feature Extraction:
 
-* Wrote function to extract 448-dim HOF feature from raw images.
+* Wrote function to extract 448-dim HOG feature from raw images.
 
 Model:
 
