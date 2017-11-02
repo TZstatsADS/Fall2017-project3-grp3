@@ -27,12 +27,15 @@ Term: Fall 2017
 
 ### Be Careful about the order of the features: SIFT(5000)+HOG(448)+LBP(59)+Gray(256)
 
-![image](figs/mode_vs_feature.png)
+Comparison of baseline and proposed model:	
+![image](figs/base_vs_new.png)
 
+Performance of different models and different features:
+![image](figs/mode_vs_feature.png =100*60)
 
 ![image](figs/models_vs_feature.png)
-	
-![image](figs/base_vs_new.png)
+
+
 
 
 **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members approve our work presented in this GitHub repository including this contributions statement. 
