@@ -19,7 +19,7 @@ Term: Fall 2017
 
 + Project details: First, we researched on several classification medels including gbm, xgboost, random forest, logistic regression, lasso, nueral network, svm and cnn. Next, we test different ways of feature extraction including sift, hog, pca, lbp and cnn and use the features we got to work with different models. Finally, we found the most efficient solution of this problem is using model xgboost and feature sift+hog+lbp+gray256.
 
-([Final_model](lib/Hongyang_Final))
++ Quick Access: In case you get lost in the main file, this folder contains everything you need to run the advanced model ([Final_model](lib/Hongyang_Final))
 
 ![image](figs/mode_vs_feature.png)
 
