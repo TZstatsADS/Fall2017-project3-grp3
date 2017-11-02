@@ -10,7 +10,8 @@ geometry: margin = 0.5in
 Revlevant packages needed for this file.
 
 ```{r "package import", message = FALSE, warnings = FALSE}
-list.of.packages <- c("e1071", "ggplot2","gbm","caret","randomForest","EBImage","xgboost","OpenImageR","stringr")
+list.of.packages <- c("e1071", "ggplot2","gbm","caret","randomForest",
+                      "EBImage","xgboost","OpenImageR","stringr")
 
 
 packages.needed=setdiff(list.of.packages, 
@@ -35,30 +36,28 @@ library("OpenImageR")
 Set the working directory to the where this main.Rmd file is located.
 ```{r}
 #setwd('.')
-#image_train.dir  # raw image folder
-label_train.dir <- '../data/label_train.csv' 
-feature_sift_train.dir <- '../data/sift_train.csv'
-# feature_hog_train.dir
-# feature_lbp_train.dir
-# 
-# 
-image_test.dir <- '../../data/images'
-# 
-feature_sift_test.dir <- '../data/sift_test.csv'
-feature_hog_test.dir <- '../output/feature_hog_test.RData'
-#feature_sift_pca_test.dir <- '../output/feature_sift_pca_test.RData'
-feature_lbp_test.dir <- '../output/feature_lbp_test.RData'
-feature_gray_test.dir <- '../output/feature_gray_test.RData'
+
+label_train.dir <- '../data/label_train.csv' # training data label
+feature_sift_train.dir <- '../data/sift_train.csv' # training data sift feature
+
+
+image_test.dir <- '../../data/images' # test raw images folder, outside project repository
+
+feature_sift_test.dir <- '../data/sift_test.csv' # test data sift feature
+feature_hog_test.dir <- '../output/feature_hog_test.RData' # test data hog feature
+
+feature_lbp_test.dir <- '../output/feature_lbp_test.RData' # test data lbp feature
+feature_gray_test.dir <- '../output/feature_gray_test.RData' # test data gray feature
+
+
+#######  test data final extracted feature, saved in 'output/feature_test.RData'  
 feature_test.dir <- '../output/feature_test.RData'
-# 
-# predict_label_base.dir
-# predict_label_adv1.dir
-# predict_label_adv2.dir
+
 ```
 
 ### Step 1: set up controls for evaluation experiments.
 
-In this chunk, ,we have a set of controls for the evaluation experiments. 
+In this chunk, we have a set of controls for the evaluation experiments. 
 
 + (T/F) cross-validation on the training set for GBM
 + (number) K, the number of CV folds
@@ -80,7 +79,7 @@ run.feature.test=FALSE # process features for test set
 
 
 
-### Step 2: Import training label and sift feature
+### Step 2: Import training label and training sift feature
 ```{r}
 label_train <- as.vector(read.csv(label_train.dir,as.is = T)[,2])
 sift_train_feature <- read.csv(feature_sift_train.dir,as.is=T)[,-1]
@@ -93,26 +92,12 @@ sift_train_feature <- read.csv(feature_sift_train.dir,as.is=T)[,-1]
 ### Step 3: construct visual features
 ```{r}
 source("../lib/feature.R")
-#extract_feature
 
-#if(run.feature.train){
-  #tm_extract_HOG <- system.time(HOG_features <- HOG_extract(image_train.dir))
-  
-  #print(tm_extract_HOG)
-  
-  
-  #tm_feature_train <- 
-  #  system.time(feature_train <- extract_feature(sift_train_feature,image_train.dir))[3]
-  #save(feature_train,file=feature_output.dir)
-  
-#}else{
-
-
-
+# get training feature
 feature_train <- get(load('../output/feature_train.RData'))
   
-#}
 
+# get test feature
 if(run.feature.test){
   
   sift_test_feature <- read.csv(feature_sift_test.dir,as.is=T)[,-1]
@@ -149,7 +134,6 @@ if(run.feature.test){
 
 
 
-
 ```
 
 
@@ -160,7 +144,8 @@ source('../lib/train.R')
 source('../lib/cross_validation.R')
 
 if(run.train){
-  tm_train_base <- system.time(base_fit <-  gbm_train(sift_train_feature,label_train,run.cv = run.cv))[3]
+  tm_train_base <- system.time(base_fit <-  
+              gbm_train(sift_train_feature,label_train,run.cv = run.cv))[3]
   save(base_fit,file='../output/base_fit.RData')
 }else{
   load('../output/base_fit.RData')
@@ -177,7 +162,8 @@ if(run.train){
 #### XGBoost with SIFT + HOG + LBP + Gray
 ```{r}
 if(run.train){
-  tm_train_xgb <- system.time(xgb_fit <- xgb_train(feature_train,label_train,run.cv=run.cv))[3]
+  tm_train_xgb <- system.time(xgb_fit <- 
+                      xgb_train(feature_train,label_train,run.cv=run.cv))[3]
   save(xgb_fit,file='../output/xgb_fit.RData')
 }else{
   load('../output/xgb_fit.RData')
@@ -194,10 +180,10 @@ if(run.test){
   sift_test_feature <- read.csv(feature_sift_test.dir,as.is = T)[,-1]
   
   tm_predict_base <- system.time(pred_label_base <- gbm_test(base_fit,sift_test_feature))[3]
-  #save(pred_label_base,file=predict_label_base.dir)
+  
   
   tm_predict_xgb <- system.time(pred_label_xgb <- xgb_test(xgb_fit,feature_test))[3]
-  #save(pred_label_gbm,file=predict_label_gbm.dir)
+  
   
   pred_label <- cbind(pred_label_base,pred_label_xgb)
   write.csv(pred_label,'../output/labels.csv')
