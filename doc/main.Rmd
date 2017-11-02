@@ -43,7 +43,7 @@ feature_sift_train.dir <- '../data/sift_train.csv'
 # 
 image_test.dir <- '../../data/images'
 # 
-feature_sift_test.dir <- '../../data/sift_test.csv'
+feature_sift_test.dir <- '../data/sift_test.csv'
 feature_hog_test.dir <- '../output/feature_hog_test.RData'
 #feature_sift_pca_test.dir <- '../output/feature_sift_pca_test.RData'
 feature_lbp_test.dir <- '../output/feature_lbp_test.RData'
@@ -70,7 +70,7 @@ K_folds <- 3  # number of CV folds
 run.feature.train=FALSE # process features for all pictures
 
 run.train = FALSE # if true, train model on training data, else use saved model
-run.test=FALSE # run evaluation on an independent test set
+run.test=TRUE # run evaluation on an independent test set
 run.feature.test=FALSE # process features for test set
 ```
 
@@ -108,7 +108,7 @@ source("../lib/feature.R")
 
 
 
-feature_train <- get(load('../output/sift5000_lbp_hog_gray.RData'))
+feature_train <- get(load('../output/feature_train.RData'))
   
 #}
 
