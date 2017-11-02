@@ -21,6 +21,8 @@ Term: Fall 2017
 
 + Quick Access: In case you get lost in the main file, this folder contains everything you need to run the advanced model ([Final_model](lib/Hongyang_Final))
 
+### Be Careful about the order of the features: SIFT(5000)+HOG(448)+LBP(59)+Gray(256)
+
 ![image](figs/mode_vs_feature.png)
 
 
