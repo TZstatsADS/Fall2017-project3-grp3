@@ -42,13 +42,29 @@ Carried out the model of Logistic Regression and tested it on various features. 
 
 ## Han Lin: 
 
-* Wrote main.Rmd, train.R, test.R, feature.R, cross_validation.R.
+Wrote final files:
 
-* Implemented GBM model with different features. Wrote function to train, test, cross validation, tune parameters.
+* Wrote main.Rmd, train.R, test.R, feature.R, cross_validation.R and presentation file.
 
-* Implemented XGB model with different features. Wrote function to train, test, cross validation, tune parameters.
+Feature Extraction:
 
-* Wrote function to extract HOG feature 
+* Wrote function to extract 448-dim HOF feature from raw images.
+
+Model:
+
+* Implemented baseline model (GBM with provided SIFT feature), got accuracy 80%.
+
+* Implemented GBM model, wrote function to train, test, cross validation, tune parameters.
+
+* Implemented XGB model, wrote function to train, test, cross validation, tune parameters.
+
+Test:
+
+* Tried GBM and XGB on different combination of features (HOG,SIFT+HOG,SIFT+HOG+LBP,SIFT+HOG+LBP+Gray256).
+
+* Got final combination of model and feature: XGB with SIFT+HOG+LBP+Gray256, accuracy 89%
+
+
 
 ## Hongyang Yang:
 

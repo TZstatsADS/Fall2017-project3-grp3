@@ -7,7 +7,7 @@ output:
 geometry: margin = 0.5in
 ---
 
-Revlevant packages needed for this file
+Revlevant packages needed for this file.
 
 ```{r "package import", message = FALSE, warnings = FALSE}
 list.of.packages <- c("e1071", "ggplot2","gbm","caret","randomForest","EBImage","xgboost","OpenImageR","stringr")
@@ -32,6 +32,7 @@ library("OpenImageR")
 
 
 ### Step 0: specify directories.
+Set the working directory to the where this main.Rmd file is located.
 ```{r}
 #setwd('.')
 #image_train.dir  # raw image folder
@@ -66,7 +67,7 @@ In this chunk, ,we have a set of controls for the evaluation experiments.
 + (T/F) run evaluation on an independent test set
 ```{r exp_setup}
 run.cv=FALSE # run cross-validation on the training set
-K_folds <- 3  # number of CV folds
+K_folds <- 5  # number of CV folds
 run.feature.train=FALSE # process features for all pictures
 
 run.train = FALSE # if true, train model on training data, else use saved model
@@ -146,15 +147,7 @@ if(run.feature.test){
 }
 
 
-# if(run.evaluation){
-#   load('../output/train_index.RData')
-#   #train_index <- sort(sample(1:length(label_train),0.7*length(label_train)))
-#   sift_train_feature <- sift_train_feature[train_index,]
-#   feature_train <- feature_train[train_index,]
-#   feature_test <- feature_train[-train_index,]
-#   label_train <- label_train[train_index]
-#   label_test <- label_train[-train_index]
-# }
+
 
 
 ```
